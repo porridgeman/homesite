@@ -9,6 +9,10 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+var Engine = require('tingodb')();
+var db = new Engine.Db('tingodb', {});
+var pages = db.collection("pages");
+
 var app = express();
 
 app.configure(function(){
@@ -26,10 +30,30 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-console.log(routes)
+
 app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/users', routes.user);
+
+
+pages.findOne({name:'home'}, function(err, item) {
+  if (err) {
+    console.log(err);
+    process.exit();
+  } else if (item == null) {
+    pages.insert({name:'home', title:'Home Page'}, {w:1}, function(err, result) {
+      if (err) {
+        console.log(err);
+        process.exit();
+      } else {
+        console.log(result);
+      }
+    });
+  }
+  console.log(item);
+  console.log(err);
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
