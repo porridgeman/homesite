@@ -11,7 +11,7 @@ var express = require('express')
 
 var Engine = require('tingodb')();
 var db = new Engine.Db('tingodb', {});
-var pages = db.collection("pages");
+var pageStore = db.collection("pages");
 
 var app = express();
 
@@ -36,23 +36,21 @@ app.get('/home', routes.home);
 app.get('/pages/:pageName', routes.page);
 app.get('/users', routes.user);
 
+var testPage = { 
+  name: 'test',
+  title: 'Test Page', 
+  links: [
+    {label: 'GMail', url: 'https://mail.google.com'}, 
+    {label: 'Facebook', url: 'http://www.facebook.com'},
+    {label: 'Craigslist Motorcycles', url: 'http://vancouver.en.craigslist.ca/mca'}
+  ] 
+};
 
-pages.findOne({name:'home'}, function(err, item) {
+pageStore.update({name:'test'}, testPage, { upsert: true }, function(err, count) {
   if (err) {
     console.log(err);
     process.exit();
-  } else if (item == null) {
-    pages.insert({name:'home', title:'Home Page'}, {w:1}, function(err, result) {
-      if (err) {
-        console.log(err);
-        process.exit();
-      } else {
-        console.log(result);
-      }
-    });
   }
-  console.log(item);
-  console.log(err);
 });
 
 

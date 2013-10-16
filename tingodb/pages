@@ -1,3 +1,6 @@
-{"k":"0000000078","o":"0000000064","v":"001"}
-{"_id":2,"_uid":2,"_dt":1381956984721,"_s":"4262749af8fdc1448f3d791783104e8e"}
-{"name":"home","title":"Home Page","_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000177","v":"001"}
+{"_id":2,"_uid":2,"_dt":1381966484496,"_s":"4dc59ae84c36ad9e57258814db94a083"}
+{"name":"test","title":"Test Page","links":[{"label":"GMail","url":"https://mail.google.com"},{"label":"Facebook","url":"http://www.facebook.com"}],"_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000258","v":"001"}
+{"_id":2,"_uid":2,"_dt":1381966813924,"_s":"5d0e2a52caab4e6873a3dd35f9255a35"}
+{"name":"test","title":"Test Page","links":[{"label":"GMail","url":"https://mail.google.com"},{"label":"Facebook","url":"http://www.facebook.com"},{"label":"Craigslist Motorcycles","url":"http://vancouver.en.craigslist.ca/mca"}],"_id":{"$wrap":"$oid","v":2}}
