@@ -10,3 +10,8 @@ exports.index = function(req, res){
 exports.home = function(req, res){
   res.render('home', { title: 'Home Page' });
 };
+
+exports.page = function(req, res){
+  console.log(req.params);
+  res.render('page', { title: 'Test Page', links: [{label: 'Yahoo!', url: 'http://www.yahoo.com'}, {label: 'Facebook', url: 'http://www.facebook.com'}] });
+};

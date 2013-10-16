@@ -33,6 +33,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/home', routes.home);
+app.get('/pages/:pageName', routes.page);
 app.get('/users', routes.user);
 
 

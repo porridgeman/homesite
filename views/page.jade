@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  h3 Links:
+
+  each link in links
+    p
+      a(href='#{link.url}', target='_blank') #{link.label}
+
+  
