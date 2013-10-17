@@ -1,12 +1,16 @@
 extends layout
 
 block content
-  h1 #{title}
+	h1 #{title}
 
-  h3 Links:
+	h3 Links:
 
-  each link in links
-    p
-      a(href='#{link.url}', target='_blank') #{link.label}
+	each link in links
+		p
+			a(href='#{link.url}', target='_blank') #{link.label}
 
-  
+	form(name="add", action="/pages/#{name}", method="post")
+		input(type="text", name="label");
+		input(type="text", name="url");
+		input(type="submit", name="add");
+

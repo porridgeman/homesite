@@ -36,6 +36,8 @@ app.get('/home', routes.home);
 app.get('/pages/:pageName', routes.page);
 app.get('/users', routes.user);
 
+app.post('/pages/:pageName', routes.update);
+
 var testPage = { 
   name: 'test',
   title: 'Test Page', 
@@ -46,12 +48,12 @@ var testPage = {
   ] 
 };
 
-pageStore.update({name:'test'}, testPage, { upsert: true }, function(err, count) {
-  if (err) {
-    console.log(err);
-    process.exit();
-  }
-});
+// pageStore.update({name:'test'}, testPage, { upsert: true }, function(err, count) {
+//   if (err) {
+//     console.log(err);
+//     process.exit();
+//   }
+// });
 
 
 http.createServer(app).listen(app.get('port'), function(){

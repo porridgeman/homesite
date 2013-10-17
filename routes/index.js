@@ -15,10 +15,8 @@ exports.home = function(req, res){
   res.render('home', { title: 'Home Page' });
 };
 
-exports.page = function(req, res){
-	console.log(req.params);
-
-	pageStore.findOne({name:req.params.pageName}, function(err, item) {
+var renderPage = function(req, res) {
+		pageStore.findOne({name:req.params.pageName}, function(err, item) {
 	  if (err) {
 	    console.log(err);
 	    process.exit();
@@ -26,9 +24,32 @@ exports.page = function(req, res){
 	    console.log("Page not found!");
 	    process.exit();
 	  } else {
-	  	console.log(item);
-	  	res.render('page', item);
+	  	if (req.body && req.body.label && req.body.url) {
+	  		if (!item.links) {
+					item.links = [];
+				}
+				item.links.push({label: req.body.label, url: req.body.url})
+				pageStore.update({name:req.params.pageName}, item, { upsert: true }, function(err, count) {
+				  if (err) {
+				    console.log(err);
+				    process.exit();
+				  }
+				  res.render('page', item);
+				});
+	  	} else {	
+	  		res.render('page', item);
+	  	}
 	  }
 
 	});
+}
+
+exports.page = function(req, res){
+	renderPage(req, res);
+};
+
+exports.update = function(req, res) {
+	console.log(req.body);
+
+	renderPage(req, res);
 };
