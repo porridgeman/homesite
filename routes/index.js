@@ -16,13 +16,10 @@ exports.home = function(req, res){
 };
 
 var renderPage = function(req, res) {
-		pageStore.findOne({name:req.params.pageName}, function(err, item) {
-	  if (err) {
-	    console.log(err);
-	    process.exit();
-	  } else if (item == null) {
-	    console.log("Page not found!");
-	    process.exit();
+	
+	pageStore.findOne({name:req.params.pageName}, function(err, item) {
+	  if (err || item == null) {
+	    res.send('Page not found!', 404);
 	  } else {
 	  	if (req.body && req.body.label && req.body.url) {
 	  		if (!item.links) {
