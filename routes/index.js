@@ -15,27 +15,31 @@ exports.home = function(req, res){
   res.render('home', { title: 'Home Page' });
 };
 
+var updateLinks = function(req, res, item, callback) {
+	if (req.body && req.body.label && req.body.url) {
+		if (!item.links) {
+			item.links = [];
+		}
+		item.links.push({label: req.body.label, url: req.body.url})
+		pageStore.update({name:req.params.pageName}, item, { upsert: true }, function(err, count) {
+		  callback(err);
+		});
+	} else {	
+		callback(null);
+	}
+};
+
 var renderPage = function(req, res) {
-	
 	pageStore.findOne({name:req.params.pageName}, function(err, item) {
 	  if (err || item == null) {
 	    res.send('Page not found!', 404);
 	  } else {
-	  	if (req.body && req.body.label && req.body.url) {
-	  		if (!item.links) {
-					item.links = [];
-				}
-				item.links.push({label: req.body.label, url: req.body.url})
-				pageStore.update({name:req.params.pageName}, item, { upsert: true }, function(err, count) {
-				  if (err) {
-				    console.log(err);
-				    process.exit();
-				  }
-				  res.render('page', item);
-				});
-	  	} else {	
+	  	updateLinks(req, res, item, function(err) {
+	  		if (err) {
+			    console.log('Unable to update links!', err);
+			  }
 	  		res.render('page', item);
-	  	}
+	  	});
 	  }
 
 	});
