@@ -5,12 +5,18 @@ body {
 }
 
 h1 {
+	font-family: courier;
 	color: orange;
 	padding-bottom: 30px;
 }
 
 a {
   color: #00B7FF;
+}
+
+a.link {
+	text-decoration: none;
+	color: red;
 }
 
 .container {
