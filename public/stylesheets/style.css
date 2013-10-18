@@ -19,6 +19,10 @@ a.link {
 	color: red;
 }
 
+p.link {
+	height: 12px;
+}
+
 .container {
 	width: 850px;
 }
