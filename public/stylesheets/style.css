@@ -1,8 +1,33 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: green;
+}
+
+h1 {
+	color: orange;
+	padding-bottom: 30px;
 }
 
 a {
   color: #00B7FF;
+}
+
+.container {
+	width: 850px;
+}
+
+.left-list, .right-list {
+	background: white;
+	padding: 20px;
+	border-radius: 20px;
+	width: 350px;
+}
+
+.left-list {
+	float: left;
+}
+
+.right-list {
+	float: right;
 }

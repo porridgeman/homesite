@@ -3,25 +3,28 @@ extends layout
 block content
 	h1 #{title}
 
-	h3 Links:
+	.container
+		.left-list
+			h3 Links:
 
-	each link in links
-		p
-			a(href='#{link.url}', target='_blank') #{link.label}
+			each link in links
+				p
+					a(href='#{link.url}', target='_blank') #{link.label}
 
-	form(name="addLink", action="/pages/#{name}", method="post")
-		input(type="text", name="label");
-		input(type="text", name="url");
-		input(type="submit", name="addLink");
+			form(name="addLink", action="/pages/#{name}", method="post")
+				input(type="text", name="label");
+				input(type="text", name="url");
+				input(type="submit", name="addLink");
 
-	h3 Pages:
+		.right-list
+			h3 Pages:
 
-	each page in pages
-		p
-			a(href='/pages/#{page.name}', target='_blank') #{page.title}
+			each page in pages
+				p
+					a(href='/pages/#{page.name}', target='_blank') #{page.title}
 
-	form(name="addPage", action="/pages/#{name}", method="post")
-		input(type="text", name="name");
-		input(type="text", name="title");
-		input(type="submit", name="addPage");
+			form(name="addPage", action="/pages/#{name}", method="post")
+				input(type="text", name="name");
+				input(type="text", name="title");
+				input(type="submit", name="addPage");
 
