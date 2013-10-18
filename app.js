@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , async = require('async');
 
 var Engine = require('tingodb')();
 var db = new Engine.Db('tingodb', {});
@@ -37,6 +38,28 @@ app.get('/pages/:pageName', routes.page);
 app.get('/users', routes.user);
 
 app.post('/pages/:pageName', routes.update);
+
+app.get('/api/pages', function(req, res) {
+  pageStore.find(null, {fields: {'_id':false}}).toArray(function(err, pages) {
+    // TODO: error handling
+    res.send(pages);
+  });
+});
+
+app.post('/api/pages', function(req, res) {
+  console.log("***************************");
+  console.log(JSON.stringify(req.body));
+  console.log("***************************");
+
+  // TODO: validation
+  async.forEach(req.body, function(page, callback) {
+    pageStore.update({name: page.name}, page, { upsert: true }, function(err, count) {
+      callback(err);
+    });
+  }, function(err) {
+      res.send(err ? 'FAILURE' : 'SUCCESS');
+  });
+});
 
 var testPage = { 
   name: 'test',
