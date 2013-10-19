@@ -58,6 +58,24 @@ app.post('/api/pages', function(req, res) {
   });
 });
 
+var acceptFactory = function(mimeType) {
+  return function(req, res, next) {
+    if (req.headers.accept.indexOf() && req.headers.accept.indexOf(mimeType) != -1) {
+      next();
+    } else {
+      next('route');
+    }
+  }
+};
+
+app.get('/api/accept', acceptFactory('xml'), function(req, res) {
+  res.send('<xml>true</xml>');
+});
+
+app.get('/api/accept', acceptFactory('json'), function(req, res) {
+  res.send({json: true});
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
