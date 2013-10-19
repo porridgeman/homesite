@@ -47,37 +47,16 @@ app.get('/api/pages', function(req, res) {
 });
 
 app.post('/api/pages', function(req, res) {
-  console.log("***************************");
-  console.log(JSON.stringify(req.body));
-  console.log("***************************");
-
   // TODO: validation
   async.forEach(req.body, function(page, callback) {
     pageStore.update({name: page.name}, page, { upsert: true }, function(err, count) {
       callback(err);
     });
   }, function(err) {
-      res.send(err ? 'FAILURE' : 'SUCCESS');
+    // TODO: better result
+    res.send(err ? 'FAILURE' : 'SUCCESS');
   });
 });
-
-var testPage = { 
-  name: 'test',
-  title: 'Test Page', 
-  links: [
-    {label: 'GMail', url: 'https://mail.google.com'}, 
-    {label: 'Facebook', url: 'http://www.facebook.com'},
-    {label: 'Craigslist Motorcycles', url: 'http://vancouver.en.craigslist.ca/mca'}
-  ] 
-};
-
-// pageStore.update({name:'test'}, testPage, { upsert: true }, function(err, count) {
-//   if (err) {
-//     console.log(err);
-//     process.exit();
-//   }
-// });
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
