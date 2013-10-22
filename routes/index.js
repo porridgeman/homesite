@@ -11,6 +11,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Roland Mechler' });
 };
 
+exports.login = function(req, res){
+  res.render('login', { title: 'Please Login' });
+};
+
 exports.home = function(req, res){
   res.render('home', { title: 'Home Page' });
 };
@@ -87,6 +91,11 @@ var renderPage = function(req, res) {
 }
 
 exports.page = function(req, res){
+	 //  console.log("cookies:");
+  // console.log(req.cookies);
+  // 	  console.log("session:");
+  // console.log(req.session);
+  // req.session.user = "me"
 	renderPage(req, res);
 };
 

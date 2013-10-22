@@ -23,9 +23,28 @@ app.configure(function(){
   app.use(express.favicon('images/jaks.ico'));
   app.use(express.logger('dev'));
 
+  app.use(express.cookieParser());
+  app.use(express.cookieSession({secret: 'blah'})); // TODO better secret?
+
+  // Require basic auth for API calls.
   app.use('/api/', express.basicAuth(function(user, pass){
-    return 'rmechler' == user && 'test12' == pass;
+    return 'rmechler' == user && 'temp12' == pass;
   }));
+
+  var checkAuth = function() {
+    return function(req, res, next) {
+      console.log('session:')
+      console.log(req.session)
+      if (!req.session.user) {
+        res.redirect('/login');
+      } else {
+        next();
+      }
+    }
+  }
+
+  // Require auth for pages.
+  app.use('/pages/', checkAuth());
 
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -37,6 +56,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
 app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pages/:pageName', routes.page);
@@ -44,7 +64,26 @@ app.get('/users', routes.user);
 
 app.post('/pages/:pageName', routes.update);
 
+
+
+app.get('/login', routes.login);
+
+app.post('/login', function (req, res) {
+  var post = req.body;
+  if (post.user == 'rmechler' && post.password == 'temp12') {
+    req.session.user = 1;  // TODO we really want to look up a user id here
+    res.redirect('/pages/home'); // TODO can we preserve the page user was originally trying to see?
+  } else {
+    res.send('Bad user/pass');
+  }
+});
+
+/*
+ * API
+ */
+
 app.get('/api/pages', function(req, res) {
+
   pageStore.find(null, {fields: {'_id':false}}).toArray(function(err, pages) {
     // TODO: error handling
     res.send(pages);
