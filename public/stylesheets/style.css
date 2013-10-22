@@ -4,6 +4,14 @@ body {
   background: green;
 }
 
+title#main {
+	float: left;
+}
+
+form#logout {
+	float: right;
+}
+
 h1 {
 	font-family: courier;
 	color: orange;

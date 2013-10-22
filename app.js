@@ -28,14 +28,12 @@ app.configure(function(){
 
   // Require basic auth for API calls.
   app.use('/api/', express.basicAuth(function(user, pass){
-    return 'rmechler' == user && 'temp12' == pass;
+    return 'rmechler@gmail.com' == user && 'temp12' == pass;
   }));
 
   var checkAuth = function() {
     return function(req, res, next) {
-      console.log('session:')
-      console.log(req.session)
-      if (!req.session.user) {
+      if (!req.session.userId) {
         res.redirect('/login');
       } else {
         next();
@@ -70,12 +68,17 @@ app.get('/login', routes.login);
 
 app.post('/login', function (req, res) {
   var post = req.body;
-  if (post.user == 'rmechler' && post.password == 'temp12') {
-    req.session.user = 1;  // TODO we really want to look up a user id here
+  if (post.email == 'rmechler@gmail.com' && post.password == 'temp12') {
+    req.session.userId = 1;  // TODO we really want to look up a user id here
     res.redirect('/pages/home'); // TODO can we preserve the page user was originally trying to see?
   } else {
     res.send('Bad user/pass');
   }
+});
+
+app.post('/logout', function (req, res) {
+  delete req.session.userId;
+  res.redirect('/login');
 });
 
 /*

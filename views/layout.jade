@@ -1,7 +1,9 @@
 doctype 5
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+	head
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		title#main= title
+		form#logout(name="logout", action="/logout", method="post")
+			input(type="submit", value="logout")
+	body
+		block content

@@ -12,7 +12,7 @@ exports.index = function(req, res){
 };
 
 exports.login = function(req, res){
-  res.render('login', { title: 'Please Login' });
+  res.render('login', { title: 'Please Log In' });
 };
 
 exports.home = function(req, res){
@@ -61,7 +61,6 @@ var updatePages = function(req, res, item, callback) {
 };
 
 var renderPage = function(req, res) {
-	console.log(req.params.pageName)
 	pageStore.findOne({name:req.params.pageName}, function(err, item) {
 		console.log(err)
 	  if (err || item == null) {
@@ -91,16 +90,9 @@ var renderPage = function(req, res) {
 }
 
 exports.page = function(req, res){
-	 //  console.log("cookies:");
-  // console.log(req.cookies);
-  // 	  console.log("session:");
-  // console.log(req.session);
-  // req.session.user = "me"
 	renderPage(req, res);
 };
 
 exports.update = function(req, res) {
-	console.log(req.body);
-
 	renderPage(req, res);
 };
