@@ -14,6 +14,12 @@ var Engine = require('tingodb')();
 var db = new Engine.Db('tingodb', {});
 var pageStore = db.collection("pages");
 
+var tungus = require('tungus');
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema;
+
+console.log('Running mongoose version %s', mongoose.version);
+
 var app = express();
 
 app.configure(function(){
@@ -85,9 +91,24 @@ app.post('/logout', function (req, res) {
  * API
  */
 
+
+var pageSchema = Schema({
+    name: String
+  , title: String
+  , links: []
+  , pages: []
+})
+var Page = mongoose.model('page', pageSchema);
+
+mongoose.connect('tingodb://'+__dirname+'/tingodb', function (err) {
+  // if we failed to connect, abort
+  if (err) throw err;
+});
+
 app.get('/api/pages', function(req, res) {
 
-  pageStore.find(null, {fields: {'_id':false}}).toArray(function(err, pages) {
+  //pageStore.find(null, {fields: {'_id':false}}).toArray(function(err, pages) {
+  Page.find().select('-_id').exec(function(err, pages) {
     // TODO: error handling
     res.send(pages);
   });
