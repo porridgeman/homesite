@@ -6,19 +6,12 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , page = require('./routes/page')
   , http = require('http')
   , path = require('path')
   , async = require('async');
 
-var Engine = require('tingodb')();
-var db = new Engine.Db('tingodb', {});
-var pageStore = db.collection("pages");
-
-var tungus = require('tungus');
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema;
-
-console.log('Running mongoose version %s', mongoose.version);
+var db = require('./lib/db')
 
 var app = express();
 
@@ -63,12 +56,11 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/home', routes.home);
-app.get('/pages/:pageName', routes.page);
-app.get('/users', routes.user);
 
-app.post('/pages/:pageName', routes.update);
+//app.get('/users', routes.user);
 
-
+app.get('/pages/:pageName', page.load);
+app.post('/pages/:pageName', page.update);
 
 app.get('/login', routes.login);
 
@@ -91,24 +83,9 @@ app.post('/logout', function (req, res) {
  * API
  */
 
-
-var pageSchema = Schema({
-    name: String
-  , title: String
-  , links: []
-  , pages: []
-})
-var Page = mongoose.model('page', pageSchema);
-
-mongoose.connect('tingodb://'+__dirname+'/tingodb', function (err) {
-  // if we failed to connect, abort
-  if (err) throw err;
-});
-
 app.get('/api/pages', function(req, res) {
 
-  //pageStore.find(null, {fields: {'_id':false}}).toArray(function(err, pages) {
-  Page.find().select('-_id').exec(function(err, pages) {
+  db.Page.find().select('-_id').exec(function(err, pages) {
     // TODO: error handling
     res.send(pages);
   });
@@ -117,7 +94,7 @@ app.get('/api/pages', function(req, res) {
 app.post('/api/pages', function(req, res) {
   // TODO: validation
   async.forEach(req.body, function(page, callback) {
-    pageStore.update({name: page.name}, page, { upsert: true }, function(err, count) {
+    db.Page.update({name: page.name}, page, { upsert: true }, function(err, count) {
       callback(err);
     });
   }, function(err) {
@@ -144,6 +121,8 @@ app.get('/api/accept', acceptFactory('json'), function(req, res) {
   res.send({json: true});
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+db.init(__dirname+'/tingodb', function() {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
 });
