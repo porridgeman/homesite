@@ -4,7 +4,7 @@ var db = require('../lib/db');
 
 exports.getPages = function(req, res) {
 
-  db.Page.find().select('-_id').exec(function(err, pages) {
+  db.Page.find().select('-_id -__v').exec(function(err, pages) {
     // TODO: error handling
     res.send(pages);
   });
