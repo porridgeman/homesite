@@ -71,7 +71,7 @@ var renderPage = function(req, res) {
 	});
 }
 
-exports.load = function(req, res){
+exports.get = function(req, res){
 	renderPage(req, res);
 };
 

@@ -1,17 +1,12 @@
 
-/**
- * Module dependencies.
- */
-
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , page = require('./routes/page')
-  , http = require('http')
-  , path = require('path')
-  , async = require('async');
-
-var db = require('./lib/db')
+var express = require('express');
+var routes = require('./routes');
+var user = require('./routes/user');
+var page = require('./routes/page');
+var api = require('./routes/api');
+var http = require('http');
+var path = require('path');
+var db = require('./lib/db');
 
 var app = express();
 
@@ -57,51 +52,15 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/home', routes.home);
 
-//app.get('/users', routes.user);
-
-app.get('/pages/:pageName', page.load);
+app.get('/pages/:pageName', page.get);
 app.post('/pages/:pageName', page.update);
 
-app.get('/login', routes.login);
+app.get('/login', user.getLogin);
+app.post('/login', user.postLogin);
+app.post('/logout', user.logout);
 
-app.post('/login', function (req, res) {
-  var post = req.body;
-  if (post.email == 'rmechler@gmail.com' && post.password == 'temp12') {
-    req.session.userId = 1;  // TODO we really want to look up a user id here
-    res.redirect('/pages/home'); // TODO can we preserve the page user was originally trying to see?
-  } else {
-    res.send('Bad user/pass');
-  }
-});
-
-app.post('/logout', function (req, res) {
-  delete req.session.userId;
-  res.redirect('/login');
-});
-
-/*
- * API
- */
-
-app.get('/api/pages', function(req, res) {
-
-  db.Page.find().select('-_id').exec(function(err, pages) {
-    // TODO: error handling
-    res.send(pages);
-  });
-});
-
-app.post('/api/pages', function(req, res) {
-  // TODO: validation
-  async.forEach(req.body, function(page, callback) {
-    db.Page.update({name: page.name}, page, { upsert: true }, function(err, count) {
-      callback(err);
-    });
-  }, function(err) {
-    // TODO: better result
-    res.send(err ? 'FAILURE' : 'SUCCESS');
-  });
-});
+app.get('/api/pages', api.getPages);
+app.post('/api/pages', api.updatePages);
 
 var acceptFactory = function(mimeType) {
   return function(req, res, next) {
