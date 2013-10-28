@@ -2,7 +2,7 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url('../images/porridgeman.jpeg');
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 
 title#main {
@@ -42,6 +42,7 @@ p.link {
 	padding: 20px;
 	border-radius: 20px;
 	width: 350px;
+	margin-bottom: 100px;
 }
 
 .left-list {
