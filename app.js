@@ -12,7 +12,7 @@ var db = require('./lib/db');
 
 var app = express();
 
-var sslDir = process.env.SSLDIR;
+var sslDir = process.env.SSLDIR || path.join('/home/rmechler/ssl');
 
 var options = {
   ssl: {
