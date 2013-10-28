@@ -12,7 +12,7 @@ var db = require('./lib/db');
 
 var app = express();
 
-var sslDir = process.env.SSLDIR || path.join(__dirname, 'ssl');
+var sslDir = process.env.SSLDIR;
 
 var options = {
   ssl: {
@@ -30,7 +30,6 @@ var requireSession = function(req, res, next) {
 }
 
 var verifyBasicAuth = function(user, pass){
-  console.log("YOUOUYOYO")
   return 'rmechler@gmail.com' == user && 'temp12' == pass;
 }
 
