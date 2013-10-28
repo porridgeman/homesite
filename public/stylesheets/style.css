@@ -15,7 +15,7 @@ form#logout {
 
 h1 {
 	font-family: courier;
-	color: white;
+	color: #D3D3D3;
 	padding-bottom: 30px;
 }
 
@@ -25,7 +25,7 @@ a {
 
 a.link {
 	text-decoration: none;
-	color: red;
+	color: black;
 }
 
 p.link {
@@ -37,7 +37,8 @@ p.link {
 }
 
 .left-list, .right-list {
-	background: white;
+	background: #D3D3D3;
+	opacity: 0.85;
 	padding: 20px;
 	border-radius: 20px;
 	width: 350px;
