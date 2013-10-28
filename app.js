@@ -29,6 +29,25 @@ var requireSession = function(req, res, next) {
   }
 }
 
+var requireSecure = function(req, res, next) {
+  if (!req.secure) {
+    res.send(404, "Not found"); // TODO: is there a more appropriate error?
+  } else {
+    next();
+  }
+}
+
+var redirectSecure = function(req, res, next) {
+  if (!req.secure) {
+
+    redirectUrl = "https://" + req.headers.host.replace(/:.*/, ":" + app.get("sslport")) + req.originalUrl; // TODO: this is not quite right, but will generally work
+    console.log("Redirecting to secure: " + redirectUrl)
+    res.redirect(redirectUrl);
+  } else {
+    next();
+  }
+}
+
 var verifyBasicAuth = function(user, pass){
   return 'rmechler@gmail.com' == user && 'temp12' == pass;
 }
@@ -44,7 +63,12 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.cookieSession({secret: 'blah'})); // TODO better secret?
 
+  app.use('/login', redirectSecure);
+
+  app.use('/api/', requireSecure);
   app.use('/api/', express.basicAuth(verifyBasicAuth));
+
+  app.use('/pages/', redirectSecure);
   app.use('/pages/', requireSession);
 
   app.use(express.bodyParser());
@@ -90,9 +114,9 @@ app.get('/api/accept', acceptFactory('json'), function(req, res) {
 });
 
 db.init(__dirname+'/tingodb', function() {
-  // http.createServer(app).listen(app.get('port'), function(){
-  //   console.log("Express server listening on port " + app.get('port'));
-  // });
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
   https.createServer(options.ssl, app).listen(app.get('sslport'), function(){
     console.log("Secure Express server listening on port " + app.get('sslport'));
   });
