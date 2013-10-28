@@ -5,13 +5,38 @@ var user = require('./routes/user');
 var page = require('./routes/page');
 var api = require('./routes/api');
 var http = require('http');
+var https = require('https');
 var path = require('path');
+var fs = require("fs");
 var db = require('./lib/db');
 
 var app = express();
 
+var sslDir = process.env.SSLDIR || path.join(__dirname, 'ssl');
+
+var options = {
+  ssl: {
+    key: fs.readFileSync(path.join(sslDir, 'key.pem')).toString(),
+    cert: fs.readFileSync(path.join(sslDir, 'cert.pem')).toString()
+  }
+};
+
+var requireSession = function(req, res, next) {
+  if (!req.session.userId) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+}
+
+var verifyBasicAuth = function(user, pass){
+  console.log("YOUOUYOYO")
+  return 'rmechler@gmail.com' == user && 'temp12' == pass;
+}
+
 app.configure(function(){
   app.set('port', process.env.PORT || 80);
+  app.set('sslport', process.env.SSLPORT || 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon('images/jaks.ico'));
@@ -20,23 +45,8 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.cookieSession({secret: 'blah'})); // TODO better secret?
 
-  // Require basic auth for API calls.
-  app.use('/api/', express.basicAuth(function(user, pass){
-    return 'rmechler@gmail.com' == user && 'temp12' == pass;
-  }));
-
-  var checkAuth = function() {
-    return function(req, res, next) {
-      if (!req.session.userId) {
-        res.redirect('/login');
-      } else {
-        next();
-      }
-    }
-  }
-
-  // Require auth for pages.
-  app.use('/pages/', checkAuth());
+  app.use('/api/', express.basicAuth(verifyBasicAuth));
+  app.use('/pages/', requireSession);
 
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -81,7 +91,10 @@ app.get('/api/accept', acceptFactory('json'), function(req, res) {
 });
 
 db.init(__dirname+'/tingodb', function() {
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
+  // http.createServer(app).listen(app.get('port'), function(){
+  //   console.log("Express server listening on port " + app.get('port'));
+  // });
+  https.createServer(options.ssl, app).listen(app.get('sslport'), function(){
+    console.log("Secure Express server listening on port " + app.get('sslport'));
   });
 });
