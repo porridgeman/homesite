@@ -44,7 +44,6 @@ var updatePages = function(req, res, page, callback) {
 
 var renderPage = function(req, res) {
 	db.Page.findOne({name:req.params.pageName}, function(err, page) {
-		console.log(err)
 	  if (err || page == null) {
 	    res.send('Page not found!', 404);
 	  } else {
@@ -63,6 +62,7 @@ var renderPage = function(req, res) {
 				  if (!page.pages) {
 				  	page.pages = [];
 				  }
+				  page.baseUrl = (req.secure ? 'https' : 'http') + '://' + req.headers.host; // TODO: better way? middleware?
 		  		res.render('page', page);
 		  	});
 		  });

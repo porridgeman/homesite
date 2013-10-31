@@ -5,5 +5,11 @@ html
 		title#main= title
 		form#logout(name="logout", action="/logout", method="post")
 			input(type="submit", value="logout")
+
+	style
+		body {
+			background-image: url('#{baseUrl}/images/porridgeman.jpeg');
+		}
+
 	body
 		block content
