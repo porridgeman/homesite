@@ -62,7 +62,6 @@ var renderPage = function(req, res) {
 				  if (!page.pages) {
 				  	page.pages = [];
 				  }
-				  page.baseUrl = (req.secure ? 'https' : 'http') + '://' + req.headers.host; // TODO: better way? middleware?
 		  		res.render('page', page);
 		  	});
 		  });

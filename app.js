@@ -63,6 +63,11 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.cookieSession({secret: 'blah'})); // TODO better secret?
 
+  app.use(function(req, res, next) {
+    res.locals.baseUrl = req.protocol + '://' + req.headers.host;
+    next();
+  });
+
   app.use('/login', redirectSecure);
 
   app.use('/api/', requireSecure);
