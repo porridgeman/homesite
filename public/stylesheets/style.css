@@ -53,3 +53,11 @@ p.link {
 .right-list {
 	float: right;
 }
+
+button#edit {
+	float: right;
+}
+
+button#remove {
+	float: right;
+}

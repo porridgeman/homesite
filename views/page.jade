@@ -3,13 +3,33 @@ extends layout
 block content
 	h1 #{title}
 
+	script.
+		$(function() {
+			var hidden = true;
+			$("button#remove").hide();
+			$("button#edit").click(function() {
+				if (hidden) {
+					$("button#remove").show();
+					hidden = false;
+					$("button#edit").html("View");
+				} else {
+					$("button#remove").hide();
+					hidden = true;
+					$("button#edit").html("Edit");				
+				}
+			});
+		});
+
 	.container
 		.left-list
+			button#edit() Edit
+
 			h3 Links:
 
 			each link in links
 				p.link
 					a.link(href='#{link.url}', target='_blank') #{link.label}
+					button#remove() X
 
 			form(name="addLink", action="/pages/#{name}", method="post")
 				input(type="text", name="label", placeholder="Label");
