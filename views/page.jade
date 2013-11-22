@@ -3,6 +3,8 @@ extends layout
 block content
 	h1 #{title}
 
+	
+
 	script.
 		$(function() {
 			var hidden = true;
@@ -26,13 +28,8 @@ block content
 				//$(this).parent().append(a.attr('href')).append(a.contents());
 
 				var parent = $(this).parent();
-				var index = parent.index('p');
-
-				//var url = "/api/pages/" + page.name + "/links/" + index;
-				//var url = "/api/pages/" + locals.page.name + "/links/" + index;
-				var url = "/api/pages/home/links/" + index;
 				$.ajax({
-					url: url,
+					url: "/api/pages/#{name}/links/" + parent.index('p'),
 					success: function( data ) {
 						parent.remove();
 					}

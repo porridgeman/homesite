@@ -28,8 +28,11 @@ exports.removeLink = function(req, res) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
-      console.log("removeLink(", req.params.pageName, ", ", req.params.linkIndex, ")");
-      res.send('SUCCESS');
+      page.links.splice(req.params.linkIndex, 1)
+      page.save(function(err) {
+        // TODO: better result
+        res.send(err ? 'FAILURE' : 'SUCCESS');
+      });
     }
 
   });
