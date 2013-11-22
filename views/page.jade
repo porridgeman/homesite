@@ -25,8 +25,18 @@ block content
 				//var a = $(this).parent().children('a');
 				//$(this).parent().append(a.attr('href')).append(a.contents());
 
-				//var index = $(this).parent().index('p');
-				//$(this).parent().append(index);
+				var parent = $(this).parent();
+				var index = parent.index('p');
+
+				//var url = "/api/pages/" + page.name + "/links/" + index;
+				//var url = "/api/pages/" + locals.page.name + "/links/" + index;
+				var url = "/api/pages/home/links/" + index;
+				$.ajax({
+					url: url,
+					success: function( data ) {
+						parent.remove();
+					}
+				});
 			});
 		});
 

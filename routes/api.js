@@ -21,3 +21,16 @@ exports.updatePages = function(req, res) {
     res.send(err ? 'FAILURE' : 'SUCCESS');
   });
 };
+
+exports.removeLink = function(req, res) {
+  // TODO: validation
+  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+    if (err || page == null) {
+      res.send('Page not found!', 404);
+    } else {
+      console.log("removeLink(", req.params.pageName, ", ", req.params.linkIndex, ")");
+      res.send('SUCCESS');
+    }
+
+  });
+};
