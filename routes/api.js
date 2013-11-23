@@ -21,3 +21,19 @@ exports.updatePages = function(req, res) {
     res.send(err ? 'FAILURE' : 'SUCCESS');
   });
 };
+
+exports.removeLink = function(req, res) {
+  // TODO: validation
+  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+    if (err || page == null) {
+      res.send('Page not found!', 404);
+    } else {
+      page.links.splice(req.params.linkIndex, 1)
+      page.save(function(err) {
+        // TODO: better result
+        res.send(err ? 'FAILURE' : 'SUCCESS');
+      });
+    }
+
+  });
+};

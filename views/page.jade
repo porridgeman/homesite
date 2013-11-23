@@ -3,6 +3,8 @@ extends layout
 block content
 	h1 #{title}
 
+	
+
 	script.
 		$(function() {
 			var hidden = true;
@@ -20,6 +22,18 @@ block content
 					hidden = true;
 					$("button#edit").html("Edit");				
 				}
+			});
+			$("button#remove").click(function() {
+				//var a = $(this).parent().children('a');
+				//$(this).parent().append(a.attr('href')).append(a.contents());
+
+				var parent = $(this).parent();
+				$.ajax({
+					url: "/api/pages/#{name}/links/" + parent.index('p'),
+					success: function( data ) {
+						parent.remove();
+					}
+				});
 			});
 		});
 

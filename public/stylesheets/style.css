@@ -60,4 +60,9 @@ button#edit {
 
 button#remove {
 	float: right;
+	color: red;
+	border-color: red;
+	border-radius: 0px;
+	border-width: 1px;
+	font-weight: bold;
 }
