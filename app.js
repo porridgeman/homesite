@@ -48,6 +48,13 @@ var redirectSecure = function(req, res, next) {
   }
 }
 
+var userFromSession = function(req, res, next) {
+  if (req.session.userId == 1) {
+    req.user = "rmechler@gmail.com"; // TODO: look this up
+  }
+  next();
+}
+
 var verifyBasicAuth = function(user, pass){
   return 'rmechler@gmail.com' == user && 'temp12' == pass;
 }
@@ -71,8 +78,8 @@ app.configure(function(){
   app.use('/login', redirectSecure);
 
   app.use('/api/', requireSecure);
-  //app.use('/api/', express.basicAuth(verifyBasicAuth));
-  app.use('/api/', requireSession); // TODO: need a way to require either basic auth or session
+  app.use('/api/', userFromSession);
+  app.use('/api/', express.basicAuth(verifyBasicAuth));
 
   app.use('/pages/', redirectSecure);
   app.use('/pages/', requireSession);
