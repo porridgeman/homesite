@@ -108,7 +108,7 @@ app.post('/logout', user.logout);
 app.get('/api/pages', api.getPages);
 app.post('/api/pages', api.updatePages);
 
-app.get('/api/pages/:pageName/links/:linkIndex', api.removeLink);
+app.delete('/api/pages/:pageName/links/:linkIndex', api.removeLink);
 
 var acceptFactory = function(mimeType) {
   return function(req, res, next) {

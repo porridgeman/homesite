@@ -30,6 +30,7 @@ block content
 				var parent = $(this).parent();
 				$.ajax({
 					url: "/api/pages/#{name}/links/" + parent.index('p'),
+					method: "DELETE",
 					success: function( data ) {
 						parent.remove();
 					}
