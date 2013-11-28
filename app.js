@@ -12,12 +12,13 @@ var db = require('./lib/db');
 
 var app = express();
 
-var sslDir = process.env.SSLDIR || path.join('/home/rmechler/ssl');
+// TODO: also support default config?
+var config = eval('('+fs.readFileSync(path.join(process.cwd(), 'config/private.js'), 'utf-8')+')');
 
 var options = {
   ssl: {
-    key: fs.readFileSync(path.join(sslDir, 'key.pem')).toString(),
-    cert: fs.readFileSync(path.join(sslDir, 'cert.pem')).toString()
+    key: fs.readFileSync(path.join(config.ssl.dir, 'key.pem')).toString(),
+    cert: fs.readFileSync(path.join(config.ssl.dir, 'cert.pem')).toString()
   }
 };
 
@@ -60,8 +61,8 @@ var verifyBasicAuth = function(user, pass){
 }
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 80);
-  app.set('sslport', process.env.SSLPORT || 443);
+  app.set('port', config.port || 80);
+  app.set('sslport', config.ssl.port || 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon('images/jaks.ico'));
