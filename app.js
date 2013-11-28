@@ -129,7 +129,7 @@ app.get('/api/accept', acceptFactory('json'), function(req, res) {
   res.send({json: true});
 });
 
-db.init(__dirname+'/tingodb', function() {
+db.init('homesite', function() {
   http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
   });

@@ -11,6 +11,7 @@
     "tingodb": "git://github.com/porridgeman/tingodb",
     "async": "0.1.22",
     "tungus": "",
+    "mongodb": "",
     "mongoose": ""
   }
 }
