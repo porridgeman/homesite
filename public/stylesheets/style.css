@@ -66,3 +66,10 @@ button#remove {
 	border-width: 1px;
 	font-weight: bold;
 }
+
+button#up {
+	float: right;
+	border-radius: 0px;
+	border-width: 1px;
+	font-weight: bold;
+}

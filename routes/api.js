@@ -37,3 +37,27 @@ exports.removeLink = function(req, res) {
 
   });
 };
+
+exports.updateLink = function(req, res) {
+  // TODO: validation
+  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+    if (err || page == null) {
+      res.send('Page not found!', 404);
+    } else {
+
+      req.params.linkIndex.split(",").forEach(function(index) {
+        // TODO: need to do this because we don't have an _id for the updates. I think it's because there is a schema
+        //       for the link. Should I get rid of that?
+        var update = req.body.updates.shift();
+        page.links[index].url = update.url;
+        page.links[index].label = update.label;
+      });
+
+      page.save(function(err) {
+        // TODO: better result
+        res.send(err ? 'FAILURE' : 'SUCCESS');
+      });
+    }
+
+  });
+};

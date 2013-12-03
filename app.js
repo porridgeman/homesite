@@ -111,6 +111,7 @@ app.get('/api/pages', api.getPages);
 app.post('/api/pages', api.updatePages);
 
 app.delete('/api/pages/:pageName/links/:linkIndex', api.removeLink);
+app.put('/api/pages/:pageName/links/:linkIndex', api.updateLink);
 
 var acceptFactory = function(mimeType) {
   return function(req, res, next) {
