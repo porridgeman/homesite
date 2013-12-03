@@ -58,7 +58,7 @@ button#edit {
 	float: right;
 }
 
-button#remove {
+button.remove {
 	float: right;
 	color: red;
 	border-color: red;
@@ -67,7 +67,7 @@ button#remove {
 	font-weight: bold;
 }
 
-button#up, button#down {
+button.up, button.down {
 	float: right;
 	border-radius: 0px;
 	border-width: 1px;

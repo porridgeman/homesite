@@ -34,7 +34,9 @@ block content
 		};
 		$(function() {
 			var hidden = true;
-			var hideable = "button#remove,button#up,button#down,form#links";
+			$(".left-list button.up").first().remove();
+			$(".left-list button.down").last().remove();
+			var hideable = "button.remove,button.up,button.down,form#links";
 			$(hideable).hide();
 			$("button#edit").click(function() {
 				if (hidden) {
@@ -47,7 +49,7 @@ block content
 					$("button#edit").html("Edit");				
 				}
 			});
-			$("button#remove").click(function() {
+			$("button.remove").click(function() {
 				var parent = $(this).parent();
 				$.ajax({
 					url: "/api/pages/#{name}/links/" + parent.index('p'),
@@ -57,11 +59,11 @@ block content
 					}
 				});
 			});
-			$("button#up").click(function() {
+			$("button.up").click(function() {
 				var index = $(this).parent().index('p');
 				swapLinks(index - 1, index);
 			});
-			$("button#down").click(function() {
+			$("button.down").click(function() {
 				var index = $(this).parent().index('p');
 				swapLinks(index, index + 1);
 			});
@@ -76,9 +78,9 @@ block content
 			each link in links
 				p.link
 					a.link(href='#{link.url}', target='_blank') #{link.label}
-					button#remove() X
-					button#down() &darr;
-					button#up() &uarr;
+					button.remove() X
+					button.down() &darr;
+					button.up() &uarr;
 
 			form#links(name="addLink", action="/pages/#{name}", method="post")
 				input(type="text", name="label", placeholder="Label");
