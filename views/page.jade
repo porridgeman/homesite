@@ -12,6 +12,14 @@ block content
 				label: a.text()
 			});
 		}
+		var sendUpdates = function(indexList, updates, callback) {
+			$.ajax({
+				url: "/api/pages/#{name}/links/" + indexList,
+				data: {updates: updates},
+				method: "PUT",
+				success: callback
+			});
+		}
 		$(function() {
 			var hidden = true;
 			$("button#remove").hide();
@@ -43,23 +51,16 @@ block content
 				});
 			});
 			$("button#up").click(function() {
-				var parent = $(this).parent();
-				var index = parent.index('p');
-				var indices = (index - 1) + "," + index;
+				var index = $(this).parent().index('p');
 				var aList = $(".left-list a.link");
 				var prev = $(aList[index - 1]);
 				var curr = $(aList[index]);
 				var updates = [linkUpdate(curr), linkUpdate(prev)];
-				$.ajax({
-					url: "/api/pages/#{name}/links/" + indices,
-					data: {updates: updates},
-					method: "PUT",
-					success: function( data ) {
-						prevClone = prev.clone();
-						currClone = curr.clone();
-						prev.replaceWith(currClone);
-						curr.replaceWith(prevClone);
-					}
+				sendUpdates((index - 1) + "," + index, updates, function(data) {
+					prevClone = prev.clone();
+					currClone = curr.clone();
+					prev.replaceWith(currClone);
+					curr.replaceWith(prevClone);
 				});
 			});
 		});
