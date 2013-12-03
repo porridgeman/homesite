@@ -34,23 +34,15 @@ block content
 		};
 		$(function() {
 			var hidden = true;
-			$("button#remove").hide();
-			$("button#up").hide();
-			$("button#down").hide();
-			$("form#links").hide();
+			var hideable = "button#remove,button#up,button#down,form#links";
+			$(hideable).hide();
 			$("button#edit").click(function() {
 				if (hidden) {
-					$("button#remove").show();
-					$("button#up").show();
-					$("button#down").show();
-					$("form#links").show();
+					$(hideable).show();
 					hidden = false;
 					$("button#edit").html("View");
 				} else {
-					$("button#remove").hide();
-					$("button#up").hide();
-					$("button#down").hide();
-					$("form#links").hide();
+					$(hideable).hide();
 					hidden = true;
 					$("button#edit").html("Edit");				
 				}
