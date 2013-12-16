@@ -61,3 +61,24 @@ exports.updateLink = function(req, res) {
 
   });
 };
+
+exports.insertLink = function(req, res) {
+
+  console.log(req.body)
+
+
+  //TODO: validation
+  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+    if (err || page == null) {
+      res.send('Page not found!', 404);
+    } else {
+
+      page.links.splice(req.params.linkIndex, 0, req.body);
+      page.save(function(err) {
+        // TODO: better result
+        res.send(err ? 'FAILURE' : 'SUCCESS');
+      });
+    }
+
+  });
+};

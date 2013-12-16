@@ -19,6 +19,14 @@ block content
 				success: callback
 			});
 		};
+		var sendInsert = function(index, update, callback) {
+			$.ajax({
+				url: "/api/pages/#{name}/links/" + index,
+				data: update,
+				method: "POST",
+				success: callback
+			});
+		};
 		var moveSelected = function(step) {
 			var aList = $(".left-list a.link");
 			var otherIndex = selectedIndex + step;
@@ -37,7 +45,7 @@ block content
 			var hidden = true;
 			//$(".left-list button.up").first().remove();
 			//$(".left-list button.down").last().remove();
-			var hideable = "button.remove,button.up,button.down,form#links";
+			var hideable = "button.add,button.remove,button.up,button.down,form#links";
 			$(hideable).hide();
 			$("button#edit").click(function() {
 				if (hidden) {
@@ -49,6 +57,29 @@ block content
 					hidden = true;
 					$("button#edit").html("Edit");				
 				}
+			});
+			$("form#links").dialog({
+				autoOpen: false,
+				height: 150,
+				width: 420,
+				modal: true,
+				buttons: {
+					"Add link": function() {
+						var self = this;
+						var label = $("input#linkLabel").val();
+						var url = $("input#linkUrl").val();
+						sendInsert(selectedIndex, {label: label, url: url}, function(data) {
+							$('<a class="link" href="' + url + '">' + label + '</a>').insertBefore($(".left-list p")[selectedIndex]);
+							$( self ).dialog( "close" );
+						});	
+					},
+					Cancel: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+			$("button.add").click(function() {
+				$("form#links").dialog("open");
 			});
 			$("button.remove").click(function() {
 				$.ajax({
@@ -88,7 +119,7 @@ block content
 
 	.container
 		.left-list
-			button#edit() Edit
+			button.add() +
 			button.remove() X
 			button.down() &darr;
 			button.up() &uarr;
@@ -100,10 +131,9 @@ block content
 					a.link(href='#{link.url}', target='_blank') #{link.label}
 					
 
-			form#links(name="addLink", action="/pages/#{name}", method="post")
-				input(type="text", name="label", placeholder="Label");
-				input(type="text", name="url", placeholder="URL");
-				input(type="submit", name="addLink", value="Add Link");
+			form#links(name="addLink", title="Add link", action="/pages/#{name}", method="post")
+				input#linkLabel(type="text", name="label", placeholder="Label");
+				input#linkUrl(type="text", name="url", placeholder="URL");
 
 		.right-list
 			h3 Pages:

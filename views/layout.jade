@@ -2,7 +2,9 @@ doctype 5
 html
 	head
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/themes/smoothness/jquery.ui.all.css')
 		script(src='/scripts/jquery-1.10.2.min.js')
+		script(src='/scripts/jquery-ui-1.10.3.custom.min.js')
 		title#main= title
 		form#logout(name="logout", action="/logout", method="post")
 			input(type="submit", value="logout")
