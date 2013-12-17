@@ -47,6 +47,22 @@ block content
 			//$(".left-list button.down").last().remove();
 			var hideable = "button.add,button.remove,button.up,button.down,form#links";
 			$(hideable).hide();
+			var paragraphClickHandler = function() {
+				var thisIndex = $(this).index('p');
+				if (selectedIndex) {
+					var selected = $(".left-list p")[selectedIndex];
+					$(selected).find("a").css("color", "black");
+				}
+				if (thisIndex == selectedIndex) {
+					$(hideable).hide();	
+					selectedIndex = null;
+				} 
+				else {
+					$(hideable).show();
+					$(this).find("a").css("color", "red");
+					selectedIndex = thisIndex;
+				}
+			};
 			$("button#edit").click(function() {
 				if (hidden) {
 					$(hideable).show();
@@ -69,7 +85,8 @@ block content
 						var label = $("input#linkLabel").val();
 						var url = $("input#linkUrl").val();
 						sendInsert(selectedIndex, {label: label, url: url}, function(data) {
-							$('<a class="link" href="' + url + '">' + label + '</a>').insertBefore($(".left-list p")[selectedIndex]);
+							$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(paragraphClickHandler).insertBefore($(".left-list p")[selectedIndex]);
+							selectedIndex++;
 							$( self ).dialog( "close" );
 						});	
 					},
@@ -99,22 +116,7 @@ block content
 			$("button.down").click(function() {
 				moveSelected(1);
 			});
-			$(".left-list p").click(function() {
-				var thisIndex = $(this).index('p');
-				if (selectedIndex) {
-					var selected = $(".left-list p")[selectedIndex];
-					$(selected).find("a").css("color", "black");
-				}
-				if (thisIndex == selectedIndex) {
-					$(hideable).hide();	
-					selectedIndex = null;
-				} 
-				else {
-					$(hideable).show();
-					$(this).find("a").css("color", "red");
-					selectedIndex = thisIndex;
-				}
-			});
+			$(".left-list p").click(paragraphClickHandler);
 		});
 
 	.container
