@@ -49,20 +49,20 @@ function LinkList(pageName, container) {
 	};
 
 	this.paragraphClickHandler = function(event) {
-		var self = event.data;
+		var list = event.data;
 		var thisIndex = $(this).index('p');
-		if (self.selectedIndex) {
-			var selected = self.container.find("p")[self.selectedIndex];
+		if (list.selectedIndex) {
+			var selected = list.container.find("p")[list.selectedIndex];
 			$(selected).find("a").css("color", "black");
 		}
-		if (thisIndex == self.selectedIndex) {
-			$(self.hideable).hide(); // TODO: make a helper function
-			self.selectedIndex = null;
+		if (thisIndex == list.selectedIndex) {
+			$(list.hideable).hide(); // TODO: make a helper function
+			list.selectedIndex = null;
 		} 
 		else {
-			$(self.hideable).show(); // TODO: make a helper function
+			$(list.hideable).show(); // TODO: make a helper function
 			$(this).find("a").css("color", "red");
-			self.selectedIndex = thisIndex;
+			list.selectedIndex = thisIndex;
 		}
 	};
 
