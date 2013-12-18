@@ -77,7 +77,7 @@ function LinkList(pageName, listSelector) {
 					var label = $("input#linkLabel").val();
 					var url = $("input#linkUrl").val();
 					var self = this;
-					list.sendInsert(this.selectedIndex, {label: label, url: url}, function(data) {
+					list.sendInsert(list.selectedIndex, {label: label, url: url}, function(data) {
 						$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(list, list.paragraphClickHandler).insertBefore($(".left-list p")[list.selectedIndex]);
 						list.selectedIndex++;
 						$(self).dialog( "close" );
@@ -99,15 +99,15 @@ function LinkList(pageName, listSelector) {
 	});
 
 	$("button.remove").click(this, function(event) {
-		var self = event.data;
+		var list = event.data;
 		$.ajax({
-			url: "/api/pages/" + self.pageName + "/links/" + this.selectedIndex,
+			url: "/api/pages/" + list.pageName + "/links/" + this.selectedIndex,
 			method: "DELETE",
 			success: function( data ) {
-				var selected = $(".left-list p")[self.selectedIndex];
+				var selected = $(".left-list p")[list.selectedIndex];
 				selected.remove();
-				self.selectedIndex = null;
-				$(self.hideable).hide();	
+				list.selectedIndex = null;
+				$(list.hideable).hide();	
 			}
 		});
 	});
