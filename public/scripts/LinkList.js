@@ -1,8 +1,8 @@
 
-function LinkList(pageName, listSelector) {
+function LinkList(pageName, container) {
 
 	this.pageName = pageName;
-	this.listSelector = listSelector;
+	this.container = container;
 	this.hidden = true;
 	this.hideable = "button.add,button.remove,button.up,button.down,form#links";
 	this.selectedIndex = null;
@@ -33,7 +33,7 @@ function LinkList(pageName, listSelector) {
 	};
 
 	this.moveSelected = function(step) {
-		var aList = $(this.listSelector + " a.link");
+		var aList = this.container.find("a.link");
 		var otherIndex = this.selectedIndex + step;
 		var selected = $(aList[this.selectedIndex]);
 		var other = $(aList[otherIndex]);
@@ -52,7 +52,7 @@ function LinkList(pageName, listSelector) {
 		var self = event.data;
 		var thisIndex = $(this).index('p');
 		if (self.selectedIndex) {
-			var selected = $(self.listSelector + " p")[self.selectedIndex];
+			var selected = self.container.find("p")[self.selectedIndex];
 			$(selected).find("a").css("color", "black");
 		}
 		if (thisIndex == self.selectedIndex) {
@@ -78,7 +78,7 @@ function LinkList(pageName, listSelector) {
 					var url = $("input#linkUrl").val();
 					var self = this;
 					list.sendInsert(list.selectedIndex, {label: label, url: url}, function(data) {
-						$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(list, list.paragraphClickHandler).insertBefore($(".left-list p")[list.selectedIndex]);
+						$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
 						list.selectedIndex++;
 						$(self).dialog( "close" );
 					});	
@@ -101,10 +101,10 @@ function LinkList(pageName, listSelector) {
 	$("button.remove").click(this, function(event) {
 		var list = event.data;
 		$.ajax({
-			url: "/api/pages/" + list.pageName + "/links/" + this.selectedIndex,
+			url: "/api/pages/" + list.pageName + "/links/" + list.selectedIndex,
 			method: "DELETE",
 			success: function( data ) {
-				var selected = $(".left-list p")[list.selectedIndex];
+				var selected = list.container.find("p")[list.selectedIndex];
 				selected.remove();
 				list.selectedIndex = null;
 				$(list.hideable).hide();	
@@ -120,5 +120,7 @@ function LinkList(pageName, listSelector) {
 		event.data.moveSelected(1);
 	});
 
-	$(this.listSelector + " p").click(this, this.paragraphClickHandler);
+	console.log(this.container.find("p"))
+
+	this.container.find("p").click(this, this.paragraphClickHandler);
 }
