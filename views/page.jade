@@ -3,11 +3,11 @@ extends layout
 block content
 	h1 #{title}
 
-	script(src='/scripts/LinkList.js')
+	script(src='/scripts/EditableList.js')
 
 	script.
 		$(function() {
-			new LinkList("#{name}", $(".left-list"));
+			new EditableList("#{name}", $(".left-list"));
 		});
 
 	.container

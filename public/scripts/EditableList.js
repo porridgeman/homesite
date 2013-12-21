@@ -1,5 +1,5 @@
 
-function LinkList(pageName, container) {
+function EditableList(pageName, container) {
 
 	this.pageName = pageName;
 	this.container = container;
@@ -28,6 +28,15 @@ function LinkList(pageName, container) {
 			url: "/api/pages/" + this.pageName + "/links/" + index,
 			data: update,
 			method: "POST",
+			success: callback
+		});
+	};
+
+	this.sendRemove = function(callback) {
+		var list = this;
+		$.ajax({
+			url: "/api/pages/" + list.pageName + "/links/" + list.selectedIndex,
+			method: "DELETE",
 			success: callback
 		});
 	};
@@ -100,15 +109,11 @@ function LinkList(pageName, container) {
 
 	$("button.remove").click(this, function(event) {
 		var list = event.data;
-		$.ajax({
-			url: "/api/pages/" + list.pageName + "/links/" + list.selectedIndex,
-			method: "DELETE",
-			success: function( data ) {
-				var selected = list.container.find("p")[list.selectedIndex];
-				selected.remove();
-				list.selectedIndex = null;
-				$(list.hideable).hide();	
-			}
+		list.sendRemove(function(data) {
+			var selected = list.container.find("p")[list.selectedIndex];
+			selected.remove();
+			list.selectedIndex = null;
+			$(list.hideable).hide();	
 		});
 	});
 
@@ -124,3 +129,4 @@ function LinkList(pageName, container) {
 
 	this.container.find("p").click(this, this.paragraphClickHandler);
 }
+
