@@ -26,9 +26,8 @@ function LinkList() {
 	};
 
 	this.sendRemove = function(callback) {
-		var list = this; // TODO: is this necessary?
 		$.ajax({
-			url: "/api/pages/" + list.pageName + "/links/" + list.selectedIndex,
+			url: "/api/pages/" + this.pageName + "/links/" + this.selectedIndex,
 			method: "DELETE",
 			success: callback
 		});
