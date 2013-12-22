@@ -59,9 +59,9 @@ function LinkList() {
 
 	EditableList.apply(this, arguments);
 
-	$("form#links").dialog(this.addLinkHandlerFactory(this));
+	this.container.find("form#links").dialog(this.addLinkHandlerFactory(this));
 
-	$("button.add").click(function() {
+	this.container.find("button.add").click(function() {
 		$("form#links").dialog("open");
 	});
 }

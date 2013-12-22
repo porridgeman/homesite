@@ -31,33 +31,33 @@ function EditableList(pageName, container) {
 			$(selected).find("a").css("color", "black");
 		}
 		if (thisIndex == list.selectedIndex) {
-			$(list.hideable).hide(); // TODO: make a helper function
+			list.container.find(list.hideable).hide(); // TODO: make a helper function
 			list.selectedIndex = null;
 		} 
 		else {
-			$(list.hideable).show(); // TODO: make a helper function
+			list.container.find(list.hideable).show(); // TODO: make a helper function
 			$(this).find("a").css("color", "red");
 			list.selectedIndex = thisIndex;
 		}
 	};
 
-	$(this.hideable).hide();
+	this.container.find(this.hideable).hide();
 
-	$("button.remove").click(this, function(event) {
+	this.container.find("button.remove").click(this, function(event) {
 		var list = event.data;
 		list.sendRemove(function(data) {
 			var selected = list.container.find("p")[list.selectedIndex];
 			selected.remove();
 			list.selectedIndex = null;
-			$(list.hideable).hide();	
+			list.container.find(list.hideable).hide();	
 		});
 	});
 
-	$("button.up").click(this, function(event) {
+	this.container.find("button.up").click(this, function(event) {
 		event.data.moveSelected(-1);
 	});
 
-	$("button.down").click(this, function(event) {
+	this.container.find("button.down").click(this, function(event) {
 		event.data.moveSelected(1);
 	});
 
