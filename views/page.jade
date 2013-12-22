@@ -4,10 +4,11 @@ block content
 	h1 #{title}
 
 	script(src='/scripts/EditableList.js')
+	script(src='/scripts/LinkList.js')
 
 	script.
 		$(function() {
-			new EditableList("#{name}", $(".left-list"));
+			new LinkList("#{name}", $(".left-list"));
 		});
 
 	.container

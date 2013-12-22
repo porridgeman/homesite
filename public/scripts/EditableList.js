@@ -7,40 +7,6 @@ function EditableList(pageName, container) {
 	this.hideable = "button.add,button.remove,button.up,button.down,form#links";
 	this.selectedIndex = null;
 
-	this.linkUpdate = function(a) {
-		return ({
-			url: a.attr("href"),
-			label: a.text()
-		});
-	};
-
-	this.sendUpdates = function(indexList, updates, callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + indexList,
-			data: {updates: updates},
-			method: "PUT",
-			success: callback
-		});
-	};
-
-	this.sendInsert = function(index, update, callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + index,
-			data: update,
-			method: "POST",
-			success: callback
-		});
-	};
-
-	this.sendRemove = function(callback) {
-		var list = this;
-		$.ajax({
-			url: "/api/pages/" + list.pageName + "/links/" + list.selectedIndex,
-			method: "DELETE",
-			success: callback
-		});
-	};
-
 	this.moveSelected = function(step) {
 		var aList = this.container.find("a.link");
 		var otherIndex = this.selectedIndex + step;
