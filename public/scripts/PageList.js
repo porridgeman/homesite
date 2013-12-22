@@ -1,4 +1,4 @@
-function LinkList() {
+function PageList() {
 
 	this.linkUpdate = function(a) {
 		return ({
@@ -9,7 +9,7 @@ function LinkList() {
 
 	this.sendUpdates = function(indexList, updates, callback) {
 		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + indexList,
+			url: "/api/pages/" + this.pageName + "/pages/" + indexList,
 			data: {updates: updates},
 			method: "PUT",
 			success: callback
@@ -18,7 +18,7 @@ function LinkList() {
 
 	this.sendInsert = function(index, update, callback) {
 		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + index,
+			url: "/api/pages/" + this.pageName + "/pages/" + index,
 			data: update,
 			method: "POST",
 			success: callback
@@ -27,20 +27,20 @@ function LinkList() {
 
 	this.sendRemove = function(callback) {
 		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + this.selectedIndex,
+			url: "/api/pages/" + this.pageName + "/pages/" + this.selectedIndex,
 			method: "DELETE",
 			success: callback
 		});
 	};
 
-	this.addLinkHandlerFactory = function(list) {
+	this.addPageHandlerFactory = function(list) {
 		return {
 			autoOpen: false,
 			height: 150,
 			width: 420,
 			modal: true,
 			buttons: {
-				"Add link": function() {
+				"Add page": function() {
 					var label = $("input#linkLabel").val();
 					var url = $("input#linkUrl").val();
 					var self = this;
@@ -59,12 +59,12 @@ function LinkList() {
 
 	EditableList.apply(this, arguments);
 
-	$("form#links").dialog(this.addLinkHandlerFactory(this));
+	$("form#pages").dialog(this.addPageHandlerFactory(this));
 
 	$("button.add").click(function() {
-		$("form#links").dialog("open");
+		$("form#pages").dialog("open");
 	});
 }
 
-LinkList.prototype = Object.create(EditableList.prototype);
-LinkList.prototype.constructor = LinkList;
+PageList.prototype = Object.create(EditableList.prototype);
+PageList.prototype.constructor = PageList;

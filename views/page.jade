@@ -23,9 +23,8 @@ block content
 			each link in links
 				p.link
 					a.link(href='#{link.url}', target='_blank') #{link.label}
-					
 
-			form#links(name="addLink", title="Add link", action="/pages/#{name}", method="post")
+			form#links(name="addLink", title="Add link")
 				input#linkLabel(type="text", name="label", placeholder="Label");
 				input#linkUrl(type="text", name="url", placeholder="URL");
 
@@ -36,7 +35,7 @@ block content
 				p.link
 					a.link(href='/pages/#{page.name}', target='_blank') #{page.title}
 
-			form(name="addPage", action="/pages/#{name}", method="post")
+			form#pages(name="addPage", title="Add link")
 				input(type="text", name="name", placeholder="Name");
 				input(type="text", name="title", placeholder="Title");
 				input(type="submit", name="addPage", value="Add Page");

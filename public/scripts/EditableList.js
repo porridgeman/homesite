@@ -41,37 +41,7 @@ function EditableList(pageName, container) {
 		}
 	};
 
-	this.addLinkHandlerFactory = function(list) {
-		return {
-			autoOpen: false,
-			height: 150,
-			width: 420,
-			modal: true,
-			buttons: {
-				"Add link": function() {
-					var label = $("input#linkLabel").val();
-					var url = $("input#linkUrl").val();
-					var self = this;
-					list.sendInsert(list.selectedIndex, {label: label, url: url}, function(data) {
-						$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
-						list.selectedIndex++;
-						$(self).dialog( "close" );
-					});	
-				},
-				Cancel: function() {
-					$(this).dialog( "close" );
-				}
-			}
-		};
-	};
-
 	$(this.hideable).hide();
-
-	$("form#links").dialog(this.addLinkHandlerFactory(this));
-
-	$("button.add").click(function() {
-		$("form#links").dialog("open");
-	});
 
 	$("button.remove").click(this, function(event) {
 		var list = event.data;
@@ -90,8 +60,6 @@ function EditableList(pageName, container) {
 	$("button.down").click(this, function(event) {
 		event.data.moveSelected(1);
 	});
-
-	console.log(this.container.find("p"))
 
 	this.container.find("p").click(this, this.paragraphClickHandler);
 }
