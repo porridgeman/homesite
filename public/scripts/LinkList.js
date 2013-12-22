@@ -62,7 +62,7 @@ function LinkList() {
 	this.container.find("form#links").dialog(this.addLinkHandlerFactory(this));
 
 	this.container.find("button.add").click(function() {
-		$("form#links").dialog("open");
+		this.container.find("form#links").dialog("open");
 	});
 }
 

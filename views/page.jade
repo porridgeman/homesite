@@ -5,10 +5,12 @@ block content
 
 	script(src='/scripts/EditableList.js')
 	script(src='/scripts/LinkList.js')
+	script(src='/scripts/PageList.js')
 
 	script.
 		$(function() {
 			new LinkList("#{name}", $(".left-list"));
+			new PageList("#{name}", $(".right-list"));
 		});
 
 	.container
@@ -40,8 +42,7 @@ block content
 				p.link
 					a.link(href='/pages/#{page.name}', target='_blank') #{page.title}
 
-			form#pages(name="addPage", title="Add link")
-				input(type="text", name="name", placeholder="Name");
-				input(type="text", name="title", placeholder="Title");
-				input(type="submit", name="addPage", value="Add Page");
+			form#pages(name="addPage", title="Add page")
+				input(type="text", name="pageName", placeholder="Name");
+				input(type="text", name="pageTitle", placeholder="Title");
 

@@ -25,7 +25,7 @@ function EditableList(pageName, container) {
 
 	this.paragraphClickHandler = function(event) {
 		var list = event.data;
-		var thisIndex = $(this).index('p');
+		var thisIndex = $(this).index('p');  // TODO: this is wrong
 		if (list.selectedIndex) {
 			var selected = list.container.find("p")[list.selectedIndex];
 			$(selected).find("a").css("color", "black");
