@@ -7,6 +7,32 @@ function EditableList(pageName, container) {
 	this.hideable = "button.remove,button.up,button.down,form#links";
 	this.selectedIndex = null;
 
+	this.ajaxPost = function(url, data, success) {
+		$.ajax({
+			url: url,
+			data: data,
+			method: "POST",
+			success: success
+		});
+	};
+
+	this.ajaxPut = function(url, data, success) {
+		$.ajax({
+			url: url,
+			data: data,
+			method: "PUT",
+			success: success
+		});
+	};
+
+	this.ajaxDelete = function(url, success) {
+		$.ajax({
+			url: url,
+			method: "DELETE",
+			success: success
+		});
+	};
+
 	this.moveSelected = function(step) {
 		var aList = this.container.find("a.link");
 		var otherIndex = this.selectedIndex + step;

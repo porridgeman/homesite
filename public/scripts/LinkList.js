@@ -17,12 +17,7 @@ function LinkList() {
 	};
 
 	this.sendInsert = function(index, update, callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/links/" + index,
-			data: update,
-			method: "POST",
-			success: callback
-		});
+		this.ajaxPost("/api/pages/" + this.pageName + "/links/" + index, update, callback)
 	};
 
 	this.sendRemove = function(callback) {
@@ -51,7 +46,6 @@ function LinkList() {
 							list.selectedIndex++;
 						} 
 						else {
-							//$(http).click(list, list.paragraphClickHandler).prependTo(list.container);
 							$(http).click(list, list.paragraphClickHandler).insertAfter(list.container.find("h3"));
 						}
 						$(self).dialog( "close" );

@@ -8,29 +8,15 @@ function PageList() {
 	};
 
 	this.sendUpdates = function(indexList, updates, callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/pages/" + indexList,
-			data: {updates: updates},
-			method: "PUT",
-			success: callback
-		});
+		this.ajaxPut("/api/pages/" + this.pageName + "/pages/" + indexList, {updates: updates}, callback);
 	};
 
 	this.sendInsert = function(index, update, callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/pages/" + index,
-			data: update,
-			method: "POST",
-			success: callback
-		});
+		this.ajaxPost("/api/pages/" + this.pageName + "/pages/" + index, update, callback);
 	};
 
 	this.sendRemove = function(callback) {
-		$.ajax({
-			url: "/api/pages/" + this.pageName + "/pages/" + this.selectedIndex,
-			method: "DELETE",
-			success: callback
-		});
+		this.ajaxDelete("/api/pages/" + this.pageName + "/pages/" + this.selectedIndex, callback);
 	};
 
 	this.addPageHandlerFactory = function(list) {
