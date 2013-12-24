@@ -45,8 +45,14 @@ function PageList() {
 					var title = $("input#pageTitle").val();
 					var self = this;
 					list.sendInsert(list.selectedIndex, {name: name, title: title}, function(data) {
-						$('<p class="link"><a class="link" href="/pages/' + name + '" target="_blank">' + title + '</a></p>').click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
-						list.selectedIndex++;
+						var http = '<p class="link"><a class="link" href="/pages/' + name + '" target="_blank">' + title + '</a></p>';
+						if (list.selectedIndex) {
+							$(http).click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
+							list.selectedIndex++;
+						} 
+						else {
+							$(http).click(list, list.paragraphClickHandler).insertAfter(list.container.find("h3"));
+						}
 						$(self).dialog( "close" );
 					});	
 				},

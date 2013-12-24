@@ -44,9 +44,16 @@ function LinkList() {
 					var label = $("input#linkLabel").val();
 					var url = $("input#linkUrl").val();
 					var self = this;
-					list.sendInsert(list.selectedIndex, {label: label, url: url}, function(data) {
-						$('<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>').click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
-						list.selectedIndex++;
+					list.sendInsert(list.selectedIndex || 0, {label: label, url: url}, function(data) {
+						var http = '<p class="link"><a class="link" href="' + url + '" target="_blank">' + label + '</a></p>';
+						if (list.selectedIndex) {
+							$(http).click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
+							list.selectedIndex++;
+						} 
+						else {
+							//$(http).click(list, list.paragraphClickHandler).prependTo(list.container);
+							$(http).click(list, list.paragraphClickHandler).insertAfter(list.container.find("h3"));
+						}
 						$(self).dialog( "close" );
 					});	
 				},

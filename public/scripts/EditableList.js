@@ -4,7 +4,7 @@ function EditableList(pageName, container) {
 	this.pageName = pageName;
 	this.container = container;
 	this.hidden = true;
-	this.hideable = "button.add,button.remove,button.up,button.down,form#links";
+	this.hideable = "button.remove,button.up,button.down,form#links";
 	this.selectedIndex = null;
 
 	this.moveSelected = function(step) {
