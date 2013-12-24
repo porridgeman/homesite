@@ -61,8 +61,9 @@ function PageList() {
 
 	this.container.find("form#pages").dialog(this.addPageHandlerFactory(this));
 
-	this.container.find("button.add").click(function() {
-		this.container.find("form#pages").dialog("open");
+	this.container.find("button.add").click(this, function(event) {
+		//event.data.container.find("form#pages").dialog("open"); // TODO: why doesn't this work?
+		$("form#pages").dialog("open");
 	});
 }
 

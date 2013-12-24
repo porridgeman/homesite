@@ -43,6 +43,6 @@ block content
 					a.link(href='/pages/#{page.name}', target='_blank') #{page.title}
 
 			form#pages(name="addPage", title="Add page")
-				input(type="text", name="pageName", placeholder="Name");
-				input(type="text", name="pageTitle", placeholder="Title");
+				input#pageName(type="text", name="name", placeholder="Name");
+				input#pageTitle(type="text", name="title", placeholder="Title");
 

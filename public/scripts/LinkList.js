@@ -61,8 +61,9 @@ function LinkList() {
 
 	this.container.find("form#links").dialog(this.addLinkHandlerFactory(this));
 
-	this.container.find("button.add").click(function() {
-		this.container.find("form#links").dialog("open");
+	this.container.find("button.add").click(this, function(event) {
+		//event.data.container.find("form#links").dialog("open"); // TODO: why doesn't this work?
+		$("form#links").dialog("open");
 	});
 }
 

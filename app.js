@@ -114,6 +114,10 @@ app.delete('/api/pages/:pageName/links/:linkIndex', api.removeLink);
 app.put('/api/pages/:pageName/links/:linkIndex', api.updateLink);
 app.post('/api/pages/:pageName/links/:linkIndex', api.insertLink);
 
+app.delete('/api/pages/:pageName/pages/:pageIndex', api.removePage);
+app.put('/api/pages/:pageName/pages/:pageIndex', api.updatePage);
+app.post('/api/pages/:pageName/pages/:pageIndex', api.insertPage);
+
 var acceptFactory = function(mimeType) {
   return function(req, res, next) {
     if (req.headers.accept.indexOf() && req.headers.accept.indexOf(mimeType) != -1) {
