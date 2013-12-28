@@ -105,16 +105,13 @@ exports.updatePage = function(req, res) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
-
       req.params.pageIndex.split(",").forEach(function(index) {
-        // TODO: need to do this because we don't have an _id for the updates. I think it's because there is a schema
-        //       for the link. Should I get rid of that?
         var update = req.body.updates.shift();
         page.pages[index].name = update.name;
         page.pages[index].title = update.title;
       });
 
-      page.save(function(err) {
+      page.save(function(err, obj, count) {
         // TODO: better result
         res.send(err ? 'FAILURE' : 'SUCCESS');
       });
@@ -136,7 +133,7 @@ exports.insertPage = function(req, res) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
-console.log(req.body)
+
       addPage(req, res, function(err) {
         console.log(err)
         if (err) {
