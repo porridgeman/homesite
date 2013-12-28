@@ -33,9 +33,20 @@ function EditableList(pageName, container) {
 		});
 	};
 
+	this.handleEnd = function(condition, buttonSelector) {
+		var button = this.container.find(buttonSelector);
+		if (condition) {
+			button.hide();
+		} else {
+			button.show();
+		}
+	}
+
 	this.moveSelected = function(step) {
 		var aList = this.container.find("a.link");
 		var otherIndex = this.selectedIndex + step;
+		this.handleEnd((otherIndex == 0), "button.up");
+		this.handleEnd((otherIndex == (aList.length - 1)), "button.down");
 		var selected = $(aList[this.selectedIndex]);
 		var other = $(aList[otherIndex]);
 		var updates = [this.linkUpdate(other), this.linkUpdate(selected)];
