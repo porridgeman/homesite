@@ -78,6 +78,35 @@ function EditableList(pageName, container) {
 		}
 	};
 
+	this.addLinkHandlerFactory = function(list, buttonLabel) {
+		var handler = {
+			autoOpen: false,
+			height: 150,
+			width: 420,
+			modal: true,
+			buttons: {}
+		};
+
+		handler.buttons[buttonLabel] = function() {
+			var link = list.getLink();
+			var self = this;
+			list.sendInsert(list.selectedIndex, link.data, function(data) {
+				if (list.selectedIndex) {
+					$(link.http).click(list, list.paragraphClickHandler).insertBefore(list.container.find("p")[list.selectedIndex]);
+					list.selectedIndex++;
+				} 
+				else {
+					$(link.http).click(list, list.paragraphClickHandler).insertAfter(list.container.find("h3"));
+				}
+				$(self).dialog( "close" );
+			});	
+		};
+
+		handler.buttons.Cancel = function() { $(this).dialog( "close" ); };
+
+		return handler;
+	};
+
 	this.container.find(this.hideable).hide();
 
 	this.container.find("button.remove").click(this, function(event) {
