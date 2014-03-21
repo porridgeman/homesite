@@ -52,12 +52,15 @@ var redirectSecure = function(req, res, next) {
 var userFromSession = function(req, res, next) {
   if (req.session.userId == 1) {
     req.user = "rmechler@gmail.com"; // TODO: look this up
+  } else if (req.session.userId == 2) {
+    req.user = "edger@gmail.com"; // TODO: look this up
   }
   next();
 }
 
 var verifyBasicAuth = function(user, pass){
-  return 'rmechler@gmail.com' == user && 'temp12' == pass;
+  return 'rmechler@gmail.com' == user && 'temp12' == pass 
+      || 'edger@gmail.com' == user && 'micro' == pass;
 }
 
 app.configure(function(){

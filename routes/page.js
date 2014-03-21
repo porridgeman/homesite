@@ -16,7 +16,7 @@ var updateLinks = function(req, res, page, callback) {
 };
 
 var addPage = function(req, res, callback) {
-	db.Page.update({name: req.body.name}, {$set: {name: req.body.name, title: req.body.title}}, { upsert: true }, function(err, count) {
+	db.Page.update({name: req.body.name}, {$set: {name: req.body.name, title: req.body.title, owner:req.session.userId}}, { upsert: true }, function(err, count) {
 	  callback(err);
 	});
 };
@@ -43,7 +43,7 @@ var updatePages = function(req, res, page, callback) {
 };
 
 var renderPage = function(req, res) {
-	db.Page.findOne({name:req.params.pageName}, function(err, page) {
+	db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
 	  if (err || page == null) {
 	    res.send('Page not found!', 404);
 	  } else {

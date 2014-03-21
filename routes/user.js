@@ -9,7 +9,10 @@ exports.postLogin = function (req, res) {
   if (post.email == 'rmechler@gmail.com' && post.password == 'temp12') {
     req.session.userId = 1;  // TODO we really want to look up a user id here
     res.redirect('/pages/home'); // TODO can we preserve the page user was originally trying to see?
-  } else {
+  } else if (post.email == 'edger@gmail.com' && post.password == 'micro') {
+    req.session.userId = 2;  // TODO we really want to look up a user id here
+    res.redirect('/pages/home'); // TODO can we preserve the page user was originally trying to see?
+  } else{
     res.send('Bad user/pass');
   }
 };

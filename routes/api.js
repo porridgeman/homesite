@@ -24,7 +24,7 @@ exports.updatePages = function(req, res) {
 
 exports.removeLink = function(req, res) {
   // TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
@@ -40,7 +40,7 @@ exports.removeLink = function(req, res) {
 
 exports.updateLink = function(req, res) {
   // TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
@@ -68,7 +68,7 @@ exports.insertLink = function(req, res) {
 
 
   //TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
@@ -85,7 +85,7 @@ exports.insertLink = function(req, res) {
 
 exports.removePage = function(req, res) {
   // TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
@@ -101,7 +101,7 @@ exports.removePage = function(req, res) {
 
 exports.updatePage = function(req, res) {
   // TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
@@ -121,7 +121,7 @@ exports.updatePage = function(req, res) {
 };
 
 var addPage = function(req, res, callback) {
-  db.Page.update({name: req.body.name}, {$set: {name: req.body.name, title: req.body.title}}, { upsert: true }, function(err, count) {
+  db.Page.update({name: req.body.name}, {$set: {name: req.body.name, title: req.body.title, owner:req.session.userId}}, { upsert: true }, function(err, count) {
     callback(err);
   });
 };
@@ -129,7 +129,7 @@ var addPage = function(req, res, callback) {
 exports.insertPage = function(req, res) {
 
   //TODO: validation
-  db.Page.findOne({name:req.params.pageName}, function(err, page) {
+  db.Page.findOne({name:req.params.pageName, owner:req.session.userId}, function(err, page) {
     if (err || page == null) {
       res.send('Page not found!', 404);
     } else {
