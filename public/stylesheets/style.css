@@ -60,6 +60,8 @@ button#edit {
 
 button#login {
 	float: right;
+	border-width: 2px;
+	font-weight: bold;
 }
 
 button.remove {
