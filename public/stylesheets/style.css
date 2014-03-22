@@ -58,6 +58,10 @@ button#edit {
 	float: right;
 }
 
+button#login {
+	float: right;
+}
+
 button.remove {
 	float: right;
 	color: red;
