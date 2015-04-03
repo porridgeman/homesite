@@ -64,7 +64,7 @@ var verifyBasicAuth = function(user, pass){
 }
 
 app.configure(function(){
-  app.set('port', config.port || 80);
+  app.set('port', config.port || 81);
   app.set('sslport', config.ssl.port || 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
