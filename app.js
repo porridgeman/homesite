@@ -121,6 +121,10 @@ app.delete('/api/pages/:pageName/pages/:pageIndex', api.removePage);
 app.put('/api/pages/:pageName/pages/:pageIndex', api.updatePage);
 app.post('/api/pages/:pageName/pages/:pageIndex', api.insertPage);
 
+app.get('/edger', function(req, res){
+	res.render('edger', {'title':'Edger'});
+});
+
 var acceptFactory = function(mimeType) {
   return function(req, res, next) {
     if (req.headers.accept.indexOf() && req.headers.accept.indexOf(mimeType) != -1) {
