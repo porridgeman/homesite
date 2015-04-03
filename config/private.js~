@@ -1,6 +1,0 @@
-{
-    logLevel: "debug",
-    ssl : {
-        dir : "/Users/rmechler/ssl"
-    }
-}
